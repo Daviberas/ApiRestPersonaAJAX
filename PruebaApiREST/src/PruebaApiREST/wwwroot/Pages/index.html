@@ -3,23 +3,30 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-    <script src="../Scripts/JavaScript.js" language="javascript"></script>
+    <link rel="stylesheet" href="../CSS/Estilo.css">
+    <script type="text/javascript" src="../Scripts/JavaScript.js" language="javascript"></script>
 </head>
 <body>
     <div id="contenedorAcciones">
         <ul id="listaAcciones">
             <li>
-                <input type="button" name="btnListar" value="Listar" />
+                <input class="botonesNavegacion" type="button" id="btnListar" value="Listar" />
             </li>
             <li>
-                <input type="button" name="btnInsertar" value="Insertar" />
+                <input class="botonesNavegacion" type="button" id="btnInsertar" value="Insertar" />
             </li>
             <li>
-                <input type="text" name="txtIDaBorrar" />
-                <input type="button" name="btnBorrar" value="Borrar" />
+                <input class="textoNavegacion" type="text" id="txtIDaBorrar" />
+                <input class="botonesNavegacion" type="button" id="btnBorrar" value="Borrar" />
+            </li>
+            <li>
+                <input class="textoNavegacion" type="text" id="txtIDaEditar" />
+                <input class="botonesNavegacion" type="button" id="btnEditar" value="Editar" />
             </li>
         </ul>
     </div>
-    <div id="contenedorListaPersonas"/>
+    <br />
+    <div id="contenedorListaPersonas" class="contenedorPersonas"/>
+    <div id="formularioPersona" class="formulario"/>
 </body>
 </html>

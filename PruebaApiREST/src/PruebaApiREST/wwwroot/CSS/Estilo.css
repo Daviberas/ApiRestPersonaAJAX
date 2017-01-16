@@ -1,0 +1,106 @@
+﻿body 
+{
+    margin: 0em;
+    padding:0em;
+    background-color: #b9b9b9;
+}
+
+#contenedorAcciones 
+{
+    margin: 0em;
+    padding:0em;
+    width:100%;
+}
+
+ul
+ {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #3c3c3c;
+}
+
+li
+{
+    float: left;
+    margin:auto;
+}
+
+.botonesNavegacion , .textoNavegacion
+{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 1em;
+    text-decoration: none;
+    border-top:solid;
+    border-left:none;
+    border-right:none;
+    border-bottom:solid;
+    border-color: #3c3c3c;
+    background-color:#3c3c3c;
+    font-size:1.2em;
+}
+
+.botonesNavegacion:hover
+{
+    background-color: #808080;
+}
+
+.textoNavegacion 
+{
+    float:left;
+    background-color:#ffffff;
+    color:black;
+}
+
+.contenedorPersonas 
+{
+    float:left;
+    width:50%;
+}
+
+.tablaPersonas
+{
+    margin:auto;
+    margin-top:1em;
+    border-spacing:0;
+    text-align: center;
+    color:white;
+    font-size:1.2em;
+}
+    .tablaPersonas th
+    {
+        padding:1em;
+        background-color:#3c3c3c;
+    }
+    .tablaPersonas td 
+    {
+        padding:1em;
+        background-color:#808080;
+    }
+
+.formulario 
+{
+    width:50%;
+    float:right;
+}
+
+    .formulario p 
+    {
+        width:100%;
+        font-size:1.2em;
+        margin-left:100%;
+    }
+        .formulario p input 
+        {
+            float:right;
+            width:60%;
+            font-size:1.2em;
+        }
+    .formulario input 
+    {
+        font-size:1.2em;
+        margin-left:100%;
+    }
