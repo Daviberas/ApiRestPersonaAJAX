@@ -83,6 +83,8 @@ function getPersona()
 //Método para generar el formulario de insertar persona
 function mostrarFormulario()
 {
+    if (document.getElementById("formularioPersona").hasChildNodes())
+        document.getElementById("formularioPersona").innerHTML = "";
     var parraf = document.createElement("p");
     var texto;
     var input;
@@ -144,6 +146,8 @@ function mostrarFormularioEditar(persona)
 {
     if (persona != null && persona != "")
     {
+        if (document.getElementById("formularioPersona").hasChildNodes())
+            document.getElementById("formularioPersona").innerHTML = "";
         var parraf = document.createElement("p");
         var texto;
         var input;
@@ -202,19 +206,16 @@ function mostrarFormularioEditar(persona)
         boton.setAttribute("value", "Guardar");
         document.getElementById("formularioPersona").appendChild(boton);
 
-        boton.addEventListener("click", actualizar(persona.id));
+        boton.addEventListener("click", actualizar);
     }
-
-    //5. Enviar la solicitud, send tiene parámetros opcionales
-    json.send();
     
 }
 
 //Método para actualizar una persona
-function actualizar(id)
+function actualizar()
 {
     var json = new XMLHttpRequest();
-    var id = document.getElementById("txtIDaBorrar").value;
+    var id = document.getElementById("txtIDaEditar").value;
 
     json.open("PUT", "../api/persona/"+id);
     var persona = new Persona(0, document.getElementById("txtNombre").value, document.getElementById("txtApellidos").value, document.getElementById("txtFechaNac").value, document.getElementById("txtTelefono").value, document.getElementById("txtDireccion").value);
