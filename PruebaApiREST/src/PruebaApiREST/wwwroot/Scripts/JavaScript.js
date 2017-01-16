@@ -1,12 +1,15 @@
 ﻿window.addEventListener("load", start);
 
+//Método para añadir EventListener a todas las acciones de la barra de navegacion
 function start()
 {
     document.getElementById("btnListar").addEventListener("click", listar);
     document.getElementById("btnInsertar").addEventListener("click", mostrarFormulario);
     document.getElementById("btnBorrar").addEventListener("click", borrar);
+    document.getElementById("btnEditar").addEventListener("click", getPersona);
 }
 
+//Método para obtener todas las personas de la api
 function listar()
 {
     //1. Instanciar objeto XMLHttpRequest
@@ -43,6 +46,41 @@ function listar()
     json.send();
 }
 
+//Método para obtener una persona de la api
+function getPersona()
+{
+    //1. Instanciar objeto XMLHttpRequest
+    var json = new XMLHttpRequest();
+    var id = document.getElementById("txtIDaEditar").value;
+
+    //2. Definir método open
+    json.open("GET", "../api/persona/"+ id);
+
+    //3. Definir cabeceras
+    //En ese caso nada
+
+    //4. Definir qué hacer cuando va cambiando el estado
+    json.onreadystatechange = function ()
+    {
+        if (json.readyState == 4 && json.status == 200)
+        {
+            //6.Tratamiento de los datos recibidos del servidor
+
+            //Si SOLO queremos ver todo el texto que contiene el XML
+            //document.getElementById("txtContenedor").innerHTML = xml.responseText;
+
+            //Si queremos tratar la respuesta
+            var persona = JSON.parse(json.responseText);
+            mostrarFormularioEditar(persona);
+        }
+    }
+
+    //5. Enviar la solicitud, send tiene parámetros opcionales
+    json.send();
+}
+
+
+//Método para generar el formulario de insertar persona
 function mostrarFormulario()
 {
     var parraf = document.createElement("p");
@@ -98,17 +136,144 @@ function mostrarFormulario()
     boton.setAttribute("value", "Guardar");
     document.getElementById("formularioPersona").appendChild(boton);
 
-    //boton.addEventListener("click", insertar);
+    boton.addEventListener("click", insertar);
 }
 
+//Método para generar el formulario de edicitar persona
+function mostrarFormularioEditar(persona)
+{
+    if (persona != null && persona != "")
+    {
+        var parraf = document.createElement("p");
+        var texto;
+        var input;
+        texto = document.createTextNode("Nombre");
+        parraf.appendChild(texto);
+        input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", "txtNombre");
+        input.value = persona.nombre;
+        parraf.appendChild(input);
+        document.getElementById("formularioPersona").appendChild(parraf);
+
+        parraf = document.createElement("p");
+        texto = document.createTextNode("Apellidos");
+        parraf.appendChild(texto);
+        input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", "txtApellidos");
+        input.value = persona.apellidos;
+        parraf.appendChild(input);
+        document.getElementById("formularioPersona").appendChild(parraf);
+
+        parraf = document.createElement("p");
+        texto = document.createTextNode("Fecha de nacimiento");
+        parraf.appendChild(texto);
+        input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", "txtFechaNac");
+        input.value = persona.fechaNac;
+        parraf.appendChild(input);
+        document.getElementById("formularioPersona").appendChild(parraf);
+
+        parraf = document.createElement("p");
+        texto = document.createTextNode("Teléfono");
+        parraf.appendChild(texto);
+        input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", "txtTelefono");
+        input.value = persona.telefono;
+        parraf.appendChild(input);
+        document.getElementById("formularioPersona").appendChild(parraf);
+
+        parraf = document.createElement("p");
+        texto = document.createTextNode("Direccion");
+        parraf.appendChild(texto);
+        input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", "txtDireccion");
+        input.value = persona.direccion;
+        parraf.appendChild(input);
+        document.getElementById("formularioPersona").appendChild(parraf);
+
+        var boton = document.createElement("input");
+        boton.setAttribute("type", "button");
+        boton.setAttribute("id", "btnGuardar");
+        boton.setAttribute("value", "Guardar");
+        document.getElementById("formularioPersona").appendChild(boton);
+
+        boton.addEventListener("click", actualizar(persona.id));
+    }
+
+    //5. Enviar la solicitud, send tiene parámetros opcionales
+    json.send();
+    
+}
+
+//Método para actualizar una persona
+function actualizar(id)
+{
+    var json = new XMLHttpRequest();
+    var id = document.getElementById("txtIDaBorrar").value;
+
+    json.open("PUT", "../api/persona/"+id);
+    var persona = new Persona(0, document.getElementById("txtNombre").value, document.getElementById("txtApellidos").value, document.getElementById("txtFechaNac").value, document.getElementById("txtTelefono").value, document.getElementById("txtDireccion").value);
+    json.setRequestHeader("Content-Type", "application/json");
+    json.onreadystatechange = function ()
+    {
+        if (json.readyState < 4)
+        {
+            document.getElementById("contenedorListaPersonas").innerHTML = "Cargando...";
+        }
+        else
+            if (json.readyState == 4 && json.status == 204)
+            {
+                listar();
+            }
+            else
+                if (json.readyState == 4 && json.status != 204)
+                {
+                    document.getElementById("contenedorListaPersonas").innerHTML = "Error, persona no actualizada.";
+                }
+    }
+    json.send(JSON.stringify(persona));
+}
+
+//Método para insertar una persona en la api
+function insertar()
+{
+    var json = new XMLHttpRequest();
+
+    json.open("POST", "../api/persona");
+    var persona = new Persona(0, document.getElementById("txtNombre").value, document.getElementById("txtApellidos").value, document.getElementById("txtFechaNac").value, document.getElementById("txtTelefono").value, document.getElementById("txtDireccion").value);
+    json.setRequestHeader("Content-Type", "application/json");
+    json.onreadystatechange = function () {
+        if (json.readyState < 4) {
+            document.getElementById("contenedorListaPersonas").innerHTML = "Cargando...";
+        }
+        else
+            if (json.readyState == 4 && json.status == 204)
+            {
+                listar();
+            }
+            else
+                if (json.readyState == 4 && json.status != 204)
+                {
+                    document.getElementById("contenedorListaPersonas").innerHTML = "Error, persona no insertada.";
+                }
+    }
+    json.send(JSON.stringify(persona));
+}
+
+//Método para borrar una persona de la api
 function borrar()
 {
     if (document.getElementById("txtIDaBorrar").innerHTML != " " && document.getElementById("txtIDaBorrar").innerHTML != null)
     {
         var json = new XMLHttpRequest();
+        var id = document.getElementById("txtIDaBorrar").value;
 
-        json.open("DELETE", "../api/persona" + "/" + document.getElementById("txtIDaBorrar").innerText);
-
+        json.open("DELETE", "../api/persona/" + id);
         
         json.onreadystatechange = function ()
         {
@@ -117,17 +282,22 @@ function borrar()
                 document.getElementById("contenedorListaPersonas").innerHTML = "Cargando...";
             }
             else
-                if (json.readyState == 4 && json.status == 200)
+                if (json.readyState == 4 && json.status == 204)
                 {
-                    
+                    listar();
                 }
+                else
+                    if (json.readyState == 4 && json.status != 204)
+                    {
+                        document.getElementById("contenedorListaPersonas").innerHTML = "No existe ninguna persona con ese ID.";
+                    }
         }
 
-        json.send();
-        listar();
+        json.send();        
     }
 }
 
+//Método para crear una tabla con todas las personas de la api
     function escribirPersonas(arrayPersonas)
     {
         var table = document.createElement("TABLE");
@@ -206,17 +376,4 @@ function borrar()
         document.getElementById("contenedorListaPersonas").innerHTML = "";
 
         document.getElementById("contenedorListaPersonas").appendChild(table);
-    }
-
-    class Persona
-    {
-        constructor(id, nombre, apellidos, fechaNac, telefono, direccion)
-        {
-            this.id = id;
-            this.nombre = nombre;
-            this.apellidos = apellidos;
-            this.fechaNac = fechaNac;
-            this.telefono = telefono;
-            this.direccion = direccion;
-        }
     }

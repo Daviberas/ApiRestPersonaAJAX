@@ -58,7 +58,8 @@ li
 .contenedorPersonas 
 {
     float:left;
-    width:50%;
+    width:40%;
+    margin-left:2%;
 }
 
 .tablaPersonas
@@ -83,24 +84,21 @@ li
 
 .formulario 
 {
-    width:50%;
+    width:40%;
     float:right;
+    margin-right:2%;
 }
 
     .formulario p 
     {
-        width:100%;
         font-size:1.2em;
-        margin-left:100%;
     }
         .formulario p input 
         {
             float:right;
-            width:60%;
             font-size:1.2em;
         }
     .formulario input 
     {
         font-size:1.2em;
-        margin-left:100%;
     }
