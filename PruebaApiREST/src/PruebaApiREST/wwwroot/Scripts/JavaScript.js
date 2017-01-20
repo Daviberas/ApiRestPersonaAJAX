@@ -6,7 +6,7 @@ function start()
     document.getElementById("btnListar").addEventListener("click", listar);
     document.getElementById("btnInsertar").addEventListener("click", mostrarFormulario);
     document.getElementById("btnBorrar").addEventListener("click", borrar);
-    document.getElementById("btnEditar").addEventListener("click", getPersona);
+    //document.getElementById("btnEditar").addEventListener("click", getPersona);
 }
 
 //Método para obtener todas las personas de la api
@@ -47,11 +47,10 @@ function listar()
 }
 
 //Método para obtener una persona de la api
-function getPersona()
+function getPersona(id)
 {
     //1. Instanciar objeto XMLHttpRequest
     var json = new XMLHttpRequest();
-    var id = document.getElementById("txtIDaEditar").value;
 
     //2. Definir método open
     json.open("GET", "../api/persona/"+ id);
@@ -71,7 +70,7 @@ function getPersona()
 
             //Si queremos tratar la respuesta
             var persona = JSON.parse(json.responseText);
-            mostrarFormularioEditar(persona);
+            return persona;
         }
     }
 
@@ -142,8 +141,10 @@ function mostrarFormulario()
 }
 
 //Método para generar el formulario de edicitar persona
-function mostrarFormularioEditar(persona)
+function mostrarFormularioEditar(e)
 {
+    var id = e.target.parentNode.childNodes[0].childNodes[0].innerText;
+    var persona = getPersona(id);
     if (persona != null && persona != "")
     {
         if (document.getElementById("formularioPersona").hasChildNodes())
@@ -341,6 +342,7 @@ function borrar()
         {
             var persona = new Persona(arrayPersonas[i].id,arrayPersonas[i].nombre,arrayPersonas[i].apellidos,arrayPersonas[i].fechaNac,arrayPersonas[i].telefono,arrayPersonas[i].direccion);
             fila = document.createElement("TR");
+            fila.addEventListener("click", mostrarFormularioEditar,false);
             columna = document.createElement("TD");
             texto = document.createTextNode(persona.id);
             columna.appendChild(texto);
