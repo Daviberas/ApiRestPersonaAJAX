@@ -81,6 +81,10 @@ li
         padding:1em;
         background-color:#808080;
     }
+.filaClickable:hover
+{
+    cursor: pointer;
+}
 
 .formulario 
 {

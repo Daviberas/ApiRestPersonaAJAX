@@ -143,11 +143,7 @@ function mostrarFormulario()
 //Método para generar el formulario de edicitar persona
 function mostrarFormularioEditar(e)
 {
-    var id = e.target.parentNode.childNodes[0].childNodes[0].innerText;
-    var persona = getPersona(id);
-    if (persona != null && persona != "")
-    {
-        if (document.getElementById("formularioPersona").hasChildNodes())
+    if (document.getElementById("formularioPersona").hasChildNodes())
             document.getElementById("formularioPersona").innerHTML = "";
         var parraf = document.createElement("p");
         var texto;
@@ -157,7 +153,7 @@ function mostrarFormularioEditar(e)
         input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("id", "txtNombre");
-        input.value = persona.nombre;
+        input.value = e.target.parentNode.childNodes[1].childNodes[0].nodeValue;
         parraf.appendChild(input);
         document.getElementById("formularioPersona").appendChild(parraf);
 
@@ -167,7 +163,7 @@ function mostrarFormularioEditar(e)
         input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("id", "txtApellidos");
-        input.value = persona.apellidos;
+        input.value = e.target.parentNode.childNodes[2].childNodes[0].nodeValue;
         parraf.appendChild(input);
         document.getElementById("formularioPersona").appendChild(parraf);
 
@@ -177,7 +173,7 @@ function mostrarFormularioEditar(e)
         input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("id", "txtFechaNac");
-        input.value = persona.fechaNac;
+        input.value = e.target.parentNode.childNodes[3].childNodes[0].nodeValue;
         parraf.appendChild(input);
         document.getElementById("formularioPersona").appendChild(parraf);
 
@@ -187,7 +183,7 @@ function mostrarFormularioEditar(e)
         input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("id", "txtTelefono");
-        input.value = persona.telefono;
+        input.value = e.target.parentNode.childNodes[4].childNodes[0].nodeValue;
         parraf.appendChild(input);
         document.getElementById("formularioPersona").appendChild(parraf);
 
@@ -197,7 +193,7 @@ function mostrarFormularioEditar(e)
         input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("id", "txtDireccion");
-        input.value = persona.direccion;
+        input.value = e.target.parentNode.childNodes[5].childNodes[0].nodeValue;
         parraf.appendChild(input);
         document.getElementById("formularioPersona").appendChild(parraf);
 
@@ -207,9 +203,7 @@ function mostrarFormularioEditar(e)
         boton.setAttribute("value", "Guardar");
         document.getElementById("formularioPersona").appendChild(boton);
 
-        boton.addEventListener("click", actualizar);
-    }
-    
+        boton.addEventListener("click", actualizar);    
 }
 
 //Método para actualizar una persona
@@ -342,7 +336,8 @@ function borrar()
         {
             var persona = new Persona(arrayPersonas[i].id,arrayPersonas[i].nombre,arrayPersonas[i].apellidos,arrayPersonas[i].fechaNac,arrayPersonas[i].telefono,arrayPersonas[i].direccion);
             fila = document.createElement("TR");
-            fila.addEventListener("click", mostrarFormularioEditar,false);
+            fila.addEventListener("click", mostrarFormularioEditar, false);
+            fila.setAttribute("class","filaClickable");
             columna = document.createElement("TD");
             texto = document.createTextNode(persona.id);
             columna.appendChild(texto);
